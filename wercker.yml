@@ -4,3 +4,6 @@ build:
     - script:
         name: run chefspec
         code: /opt/chefdk/embedded/bin/rspec --color
+    - script:
+        name: run foodcritic
+        code: rake foodcritic
