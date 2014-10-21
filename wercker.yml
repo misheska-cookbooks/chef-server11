@@ -2,5 +2,5 @@ box: box-cutter/chefdk
 build:
   steps:
     - script:
-      name: run chefspec
-      code: /opt/chefdk/embedded/bin/rspec --color
+        name: run chefspec
+        code: /opt/chefdk/embedded/bin/rspec --color
