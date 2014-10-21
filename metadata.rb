@@ -1,0 +1,7 @@
+name             'chef-server11'
+maintainer       'Mischa Taylor'
+maintainer_email 'mischa@misheska.com'
+license          'Apache 2.0'
+description      'Installs/Configures chef-server11'
+long_description 'Installs/Configures chef-server11'
+version          '0.1.0'
