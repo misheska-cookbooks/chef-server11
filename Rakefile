@@ -23,25 +23,21 @@ namespace :kitchen do
     @instances = []
     @config = Kitchen::Config.new
     @names = %w( standalone-centos65 )
-#    @names = %w( standalone-ubuntu1404 )
     @names.each { |name| @instances << @config.instances.get(name) }
 
     desc 'Login to chef server'
     task :login do
       @config.instances.get('standalone-centos65').login
-#      @config.instances.get('standalone-ubuntu1404').login
     end
 
     desc 'Verify chef server'
     task :verify do
       @config.instances.get('standalone-centos65').verify
-#      @config.instances.get('standalone-ubuntu1404').verify
     end
 
     desc 'Setup chef server'
     task :setup do
       @config.instances.get('standalone-centos65').setup
-#      @config.instances.get('standalone-ubuntu1404').setup
     end
 
     desc 'Create standalone cluster'
