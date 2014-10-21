@@ -1,4 +1,5 @@
-# chef-server11 [![wercker status](https://app.wercker.com/status/3e01933ba9a675cbe064d1c99e1e9a1f/m "wercker status")](https://app.wercker.com/project/bykey/3e01933ba9a675cbe064d1c99e1e9a1f)
+# chef-server11
+[![wercker status](https://app.wercker.com/status/e61351a967bc2622ee74e2cf18c83eac/m "wercker status")](https://app.wercker.com/project/bykey/e61351a967bc2622ee74e2cf18c83eac)
 
 This cookbook configures a system to be a Chef Server
 
