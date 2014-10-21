@@ -6,4 +6,7 @@ build:
         code: /opt/chefdk/embedded/bin/rspec --color
     - script:
         name: run foodcritic
-        code: rake foodcritic
+        code: foodcritic . --exclude spec
+    - script:
+        name: run rubocop
+        code: rubocop
