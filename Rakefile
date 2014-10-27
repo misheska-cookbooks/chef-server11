@@ -1,58 +1,65 @@
-require 'rubocop/rake_task'
-desc 'Run RuboCop style checks'
-RuboCop::RakeTask.new(:rubocop)
+#!/usr/bin/env rake
+require 'rake'
 
-require 'foodcritic'
-desc 'Run Foodcritic style checks'
-FoodCritic::Rake::LintTask.new(:foodcritic) do |t|
-  t.options = {
-    fail_tags: ['any']
-  }
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec) do |task|
+    task.rspec_opts = '--color'
+  end
+rescue LoadError
+  warn "Looks like the Chef DK is not configured.  Download the Chef DK via\n"\
+       "https://downloads.getchef.com/chef-dk.  On Linux and Mac OS X add\n"\
+       "to $PATH with:\n"\
+       '    eval "$(chef shell-init bash)"'
 end
 
-require 'rspec/core/rake_task'
-desc 'Run RSpec examples'
-RSpec::Core::RakeTask.new(:spec)
+begin
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new do |task|
+    task.fail_on_error = true
+    task.options = %w(--display-cop-names)
+  end
+rescue LoadError
+  warn '>>>>> Rubocop gem not loaded, omitting tasks'
+end
 
-require 'kitchen/rake_tasks'
-Kitchen::RakeTasks.new
+begin
+  require 'foodcritic/rake_task'
+  require 'foodcritic'
+  task default: [:foodcritic]
+  FoodCritic::Rake::LintTask.new do |task|
+    task.options = {
+      fail_tags: ['any'],
+      tags: ['~FC015']
+    }
+  end
+rescue LoadError
+  warn '>>>>> foodcritic gem not loaded, omitting tasks'
+end
 
-namespace :kitchen do
-  require 'kitchen'
-  namespace :'standalone' do
-    @instances = []
-    @config = Kitchen::Config.new
-    @names = %w( standalone-centos65 )
-    @names.each { |name| @instances << @config.instances.get(name) }
+begin
+  require 'kitchen/rake_tasks'
+  Kitchen::RakeTasks.new
 
-    desc 'Login to chef server'
-    task :login do
-      @config.instances.get('standalone-centos65').login
-    end
+  desc 'Run _all_ the tests. Go get a coffee.'
+  task :complete do
+    Rake::Task['test:quick'].invoke
+    Rake::Task['test:kitchen:all'].invoke
+  end
 
-    desc 'Verify chef server'
-    task :verify do
-      @config.instances.get('standalone-centos65').verify
-    end
+  desc 'Run CI tests'
+  task :ci do
+    Rake::Task['test:complete'].invoke
+  end
+rescue LoadError
+  warn '>>>>> Kitchen gem not loaded, omitting tasks'
+end
 
-    desc 'Setup chef server'
-    task :setup do
-      @config.instances.get('standalone-centos65').setup
-    end
-
-    desc 'Create standalone cluster'
-    task :create do
-      @instances.each(&:create)
-    end
-
-    desc 'Destroy standalone cluster'
-    task :destroy do
-      @instances.each(&:destroy)
-    end
-
-    desc 'Converge standalone cluster'
-    task :converge do
-      @instances.each(&:converge)
-    end
+task default: 'test:quick'
+namespace :test do
+  desc 'Run all the quick tests.'
+  task :quick do
+    Rake::Task['rubocop'].invoke
+    Rake::Task['foodcritic'].invoke
   end
 end
