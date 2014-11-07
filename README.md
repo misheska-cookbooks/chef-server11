@@ -14,6 +14,24 @@ On Mac OS X and Linux, configure the PATH and GEM environment variables with:
 
 All cookbook-related development activities are Rake tasks:
 
+    rake complete                       # Run _all_ the tests
+    rake foodcritic                     # Lint Chef cookbooks
+    rake kitchen:all                    # Run all test instances
+    rake kitchen:node1-centos65         # Run node1-centos65 test instance
+    rake kitchen:node1-ubuntu1404       # Run node1-ubuntu1404 test instance
+    rake kitchen:node2-centos65         # Run node2-centos65 test instance
+    rake kitchen:node2-ubuntu1404       # Run node2-ubuntu1404 test instance
+    rake kitchen:standalone-centos65    # Run standalone-centos65 test instance
+    rake kitchen:standalone-ubuntu1404  # Run standalone-ubuntu1404 test instance
+    rake rubocop                        # Run RuboCop
+    rake rubocop:auto_correct           # Auto-correct RuboCop offenses
+    rake spec                           # Run RSpec code examples
+    rake standalone:converge            # converge standalone cluster
+    rake standalone:create              # create standalone cluster
+    rake standalone:destroy             # destroy standalone cluster
+    rake standalone:login               # login to standalone server
+    rake test:quick                     # Run all the quick tests
+
 To spin up your very own test Chef Server cluster:
 
     $ rake standalone:converge
