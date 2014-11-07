@@ -83,7 +83,7 @@ configuration          | Configuration values to pass down to the underlying ser
 org_name               | Organization name to be created | String | 'default'
 org_long_name          | Descriptive string for the organization | String | 'Default Organization'
 org_private_key        | Name for the organization validation key | String | #{node['chef_server12']['organization']}-validator.pem
-org_private_key_path | String | Local path where a copy of organization validation key should be stored | '/tmp/default-validator.pem'
+org_private_key_path | Local path where a copy of organization validation key should be stored | String | '/tmp/default-validator.pem'
 topology               | Installation cluster topology.  Possible values are `standalone`, `tiered` or `ha`. | String | 'standalone'
 type                   | Installation type.  Possible values are 'open_source" or 'enterprise'. | String | 'open_source'
 version                | Chef Server version to install. This value is ignored if `package_file` is set. | String | :latest
