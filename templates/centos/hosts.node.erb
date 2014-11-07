@@ -1,0 +1,9 @@
+127.0.0.1   <%= @node_fqdn %> <%= @node_hostname %> localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+<%= @chef_server_ipaddress %> <%= @chef_server_fqdn %>
+<% if node['chef_server11'].attribute?('nodes') -%>
+<% node['chef_server11']['nodes'].each do |fqdn, ipaddress| -%>
+<%= ipaddress %> <%= fqdn %>
+<% end -%>
+<% end -%>

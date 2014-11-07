@@ -24,3 +24,7 @@ when 'enterprise'
       '&filename=private-chef_11.2.3-1_amd64.deb'
   end
 end
+
+default['chef_server11']['admin_username'] = 'chefadmin'
+default['chef_server11']['admin_password'] = 'chefadmin'
+default['chef_server11']['admin_private_key_path'] = '/tmp/chefadmin.pem'
