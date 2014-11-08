@@ -9,7 +9,6 @@ directory '/etc/chef' do
 end
 
 if node['chef_server11']['type'] == 'enterprise'
-  validator_pem_path = node['chef_server11']['organization_private_key_path']
   url = "https://#{node['chef_server11']['api_fqdn']}/organizations"\
       "/#{node['chef_server11']['organization']}"
 

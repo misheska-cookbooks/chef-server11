@@ -68,11 +68,11 @@ unless ENV['CI']
 
     @instances = []
     @config = Kitchen::Config.new
-#    @names = %w(node1-centos65 node2-centos65 standalone-centos65)
+    # @names = %w(node1-centos65 node2-centos65 standalone-centos65)
     @names = %w(node1-enterprise-centos65 node2-enterprise-centos65
                 standalone-enterprise-centos65)
     @names.each { |name| @instances << @config.instances.get(name) }
-#    @server_name = 'standalone-centos65'
+    # @server_name = 'standalone-centos65'
     @server_name = 'standalone-enterprise-centos65'
 
     desc 'login to standalone server'

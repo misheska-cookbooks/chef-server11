@@ -5,7 +5,7 @@ directory '/etc/opscode' do
 end
 
 template '/etc/opscode/knife-opc.rb' do
-  variables(:api_fqdn => node['chef_server11']['api_fqdn'])
+  variables(api_fqdn: node['chef_server11']['api_fqdn'])
 end
 
 admin_username = node['chef_server11']['admin_username']
@@ -25,5 +25,6 @@ execute 'create enterprise admin' do
       --filename #{admin_private_key_path}
       --config /etc/opscode/knife-opc.rb
   EOM
-  not_if "knife opc user show #{admin_username} --config /etc/opscode/knife-opc.rb"
+  not_if 'knife opc user show #{admin_username}'\
+         ' --config /etc/opscode/knife-opc.rb'
 end
