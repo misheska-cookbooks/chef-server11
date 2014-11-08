@@ -47,6 +47,8 @@ suites:
     run_list:
       - recipe[chef-server11::standalone]
     attributes:
+      chef_server11:
+        type: 'open_source'
 
   - name: node1
     driver:
@@ -73,5 +75,48 @@ suites:
       - recipe[chef-server11::node]
     attributes:
       chef_server11:
+        node_fqdn: node2.vagrantup.com
+        node_ipaddress: "<%= chef_node2_ip %>"
+
+  - name: standalone-enterprise
+    driver:
+      vm_hostname: standalone.vagrantup.com
+      network:
+      - ["private_network", {ip: "<%= chef_server_ip %>"}]
+      customize:
+        memory: 1536
+    run_list:
+      - recipe[chef-server11::standalone]
+    attributes:
+      chef_server11:
+        type: 'enterprise'
+
+  - name: node1-enterprise
+    driver:
+      vm_hostname: node1.vagrantup.com
+      network:
+      - ["private_network", {ip: "<%= chef_node1_ip %>"}]
+      customize:
+        memory: 512
+    run_list:
+      - recipe[chef-server11::node]
+    attributes:
+      chef_server11:
+        type: 'enterprise'
+        node_fqdn: node1.vagrantup.com
+        node_ipaddress: "<%= chef_node1_ip %>"
+
+  - name: node2-enterprise
+    driver:
+      vm_hostname: node2.vagrantup.com
+      network:
+      - ["private_network", {ip: "<%= chef_node2_ip %>"}]
+      customize:
+        memory: 512
+    run_list:
+      - recipe[chef-server11::node]
+    attributes:
+      chef_server11:
+        type: 'enterprise'
         node_fqdn: node2.vagrantup.com
         node_ipaddress: "<%= chef_node2_ip %>"

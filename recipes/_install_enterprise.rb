@@ -1,5 +1,5 @@
 # include helper methods
-::Chef::Recipe.send(:include, S3::Helper)
+::Chef::Recipe.send(:include, PackageCloud::Helper)
 
 package_url = node['chef_server11']['url']
 package_name = package_name_from_url(package_url)
