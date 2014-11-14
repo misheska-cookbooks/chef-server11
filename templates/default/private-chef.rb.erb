@@ -1,0 +1,6 @@
+# This file was created by Chef - manual changes may be overwritten
+
+# Disable the old webUI so the new one can be enabled
+<% if node['chef_server11']['feature']['opscode-manage'] %>
+opscode_webui['enable'] = false
+<% end %>

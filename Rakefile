@@ -102,10 +102,10 @@ unless ENV['CI']
       case platform
       when 'centos' then config.instances.get(@centos_backend_name).login
       when 'centos-enterprise'
-        @config.instances.get(centos_enterprise_backend_name).login
+        @config.instances.get(@centos_enterprise_backend_name).login
       when 'ubuntu' then config.instances.get(@ubuntu_backend_name).login
       when 'ubuntu-enterprise'
-        @config.instances.get(ubuntu_enterprise_backend_name).login
+        @config.instances.get(@ubuntu_enterprise_backend_name).login
       end
     end
 

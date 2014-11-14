@@ -11,6 +11,13 @@ when 'open_source'
   include_recipe 'chef-server11::_add_nodes'
 when 'enterprise'
   include_recipe 'chef-server11::_install_enterprise'
+  include_recipe 'chef-server11::_enterprise_configfile'
+  include_recipe 'chef-server11::_install_manage' \
+    if node['chef_server11']['feature']['opscode-manage']
+  include_recipe 'chef-server11::_install_reporting' \
+    if node['chef_server11']['feature']['opscode-reporting']
+  include_recipe 'chef-server11::_install_push_jobs_server' \
+    if node['chef_server11']['feature']['opscode-push-jobs-server']
   include_recipe 'chef-server11::_create_enterprise_admin'
   include_recipe 'chef-server11::_create_org'
   include_recipe 'chef-server11::_create_ssh_key_for_server'
