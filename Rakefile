@@ -73,10 +73,12 @@ unless ENV['CI']
     @config = Kitchen::Config.new
     @centos_names = %w(node1-centos65 node2-centos65 standalone-centos65)
     @centos_enterprise_names = %w(node1-enterprise-centos65
-      node2-enterprise-centos65 standalone-enterprise-centos65)
+                                  node2-enterprise-centos65
+                                  standalone-enterprise-centos65)
     @ubuntu_names = %w(node1-ubuntu1404 node2-ubuntu1404 standalone-ubuntu1404)
     @ubuntu_enterprise_names = %w(node1-enterprise-ubuntu1404
-      node2-enterprise-ubuntu1404 standalone-enterprise-ubuntu1404)
+                                  node2-enterprise-ubuntu1404
+                                  standalone-enterprise-ubuntu1404)
     @centos_names.each do |name|
       @centos_instances << @config.instances.get(name)
     end
@@ -95,7 +97,7 @@ unless ENV['CI']
     @ubuntu_enterprise_backend_name = 'standalone-enterprise-ubuntu1404'
 
     desc 'login to standalone server'
-    task :login, :platform do |t, args|
+    task :login, :platform do |_t, args|
       platform = args[:platform] || 'centos'
       case platform
       when 'centos' then config.instances.get(@centos_backend_name).login
@@ -108,7 +110,7 @@ unless ENV['CI']
     end
 
     desc 'create standalone cluster'
-    task :create, :platform do |t, args|
+    task :create, :platform do |_t, args|
       platform = args[:platform] || 'centos'
       case platform
       when 'centos' then @centos_instances.each(&:create)
@@ -122,7 +124,7 @@ unless ENV['CI']
     end
 
     desc 'destroy standalone cluster'
-    task :destroy, :platform do |t, args|
+    task :destroy, :platform do |_t, args|
       platform = args[:platform] || 'centos'
       case platform
       when 'centos' then @centos_instances.each(&:destroy)
@@ -132,11 +134,11 @@ unless ENV['CI']
       when 'ubuntu-enterprise'
         @ubuntu_enterprise_instances.each(&:destroy)
       else @centos_instances.each(&:destroy)
-      end 
+      end
     end
 
     desc 'converge standalone cluster'
-    task :converge, :platform do |t, args|
+    task :converge, :platform do |_t, args|
       platform = args[:platform] || 'centos'
       case platform
       when 'centos' then @centos_instances.each(&:converge)
