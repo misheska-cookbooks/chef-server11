@@ -15,7 +15,6 @@ package package_name do
            when 'rhel' then Chef::Provider::Package::Rpm
            when 'debian' then Chef::Provider::Package::Dpkg
            end
-#  notifies :run, 'execute[reconfigure-chef-server]', :immediately
 end
 
 execute 'opscode-push-jobs-server-ctl reconfigure'
