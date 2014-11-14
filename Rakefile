@@ -66,33 +66,87 @@ unless ENV['CI']
   namespace :standalone do
     require 'kitchen'
 
-    @instances = []
+    @centos_instances = []
+    @centos_enterprise_instances = []
+    @ubuntu_instances = []
+    @ubuntu_enterprise_instances = []
     @config = Kitchen::Config.new
-    # @names = %w(node1-centos65 node2-centos65 standalone-centos65)
-    @names = %w(node1-enterprise-centos65 node2-enterprise-centos65
-                standalone-enterprise-centos65)
-    @names.each { |name| @instances << @config.instances.get(name) }
-    # @server_name = 'standalone-centos65'
-    @server_name = 'standalone-enterprise-centos65'
+    @centos_names = %w(node1-centos65 node2-centos65 standalone-centos65)
+    @centos_enterprise_names = %w(node1-enterprise-centos65
+      node2-enterprise-centos65 standalone-enterprise-centos65)
+    @ubuntu_names = %w(node1-ubuntu1404 node2-ubuntu1404 standalone-ubuntu1404)
+    @ubuntu_enterprise_names = %w(node1-enterprise-ubuntu1404
+      node2-enterprise-ubuntu1404 standalone-enterprise-ubuntu1404)
+    @centos_names.each do |name|
+      @centos_instances << @config.instances.get(name)
+    end
+    @centos_enterprise_names.each do |name|
+      @centos_enterprise_instances << @config.instances.get(name)
+    end
+    @ubuntu_names.each do |name|
+      @ubuntu_instances << @config.instances.get(name)
+    end
+    @ubuntu_enterprise_names.each do |name|
+      @ubuntu_enterprise_instances << @config.instances.get(name)
+    end
+    @centos_backend_name = 'standalone-centos65'
+    @centos_enterprise_backend_name = 'standalone-enterprise-centos65'
+    @ubuntu_backend_name = 'standalone-ubuntu1404'
+    @ubuntu_enterprise_backend_name = 'standalone-enterprise-ubuntu1404'
 
     desc 'login to standalone server'
-    task :login do
-      @config.instances.get(server_name).login
+    task :login, :platform do |t, args|
+      platform = args[:platform] || 'centos'
+      case platform
+      when 'centos' then config.instances.get(@centos_backend_name).login
+      when 'centos-enterprise'
+        @config.instances.get(centos_enterprise_backend_name).login
+      when 'ubuntu' then config.instances.get(@ubuntu_backend_name).login
+      when 'ubuntu-enterprise'
+        @config.instances.get(ubuntu_enterprise_backend_name).login
+      end
     end
 
     desc 'create standalone cluster'
-    task :create do
-      @instances.each(&:create)
+    task :create, :platform do |t, args|
+      platform = args[:platform] || 'centos'
+      case platform
+      when 'centos' then @centos_instances.each(&:create)
+      when 'centos-enterprise'
+        @centos_enterprise_instances.each(&:create)
+      when 'ubuntu' then @ubuntu_instances.each(&:create)
+      when 'ubuntu-enterprise'
+        @ubuntu_enterprise_instances.each(&:create)
+      else @centos_instances.each(&:create)
+      end
     end
 
     desc 'destroy standalone cluster'
-    task :destroy do
-      @instances.each(&:destroy)
+    task :destroy, :platform do |t, args|
+      platform = args[:platform] || 'centos'
+      case platform
+      when 'centos' then @centos_instances.each(&:destroy)
+      when 'centos-enterprise'
+        @centos_enterprise_instances.each(&:destroy)
+      when 'ubuntu' then @ubuntu_instances.each(&:destroy)
+      when 'ubuntu-enterprise'
+        @ubuntu_enterprise_instances.each(&:destroy)
+      else @centos_instances.each(&:destroy)
+      end 
     end
 
     desc 'converge standalone cluster'
-    task :converge do
-      @instances.each(&:converge)
+    task :converge, :platform do |t, args|
+      platform = args[:platform] || 'centos'
+      case platform
+      when 'centos' then @centos_instances.each(&:converge)
+      when 'centos-enterprise'
+        @centos_enterprise_instances.each(&:converge)
+      when 'ubuntu' then @ubuntu_instances.each(&:converge)
+      when 'ubuntu-enterprise'
+        @ubuntu_enterprise_instances.each(&:converge)
+      else @centos_instances.each(&:converge)
+      end
     end
   end
 end
