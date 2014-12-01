@@ -1,0 +1,14 @@
+{
+  "chef_server11": {
+    "topology": "standalone",
+    "api_fqdn": "standalone.vagrantup.com",
+    "write_hosts": true,
+    "backend": {
+      "fqdn": "standalone.vagrantup.com",
+      "ipaddress": "192.168.33.40" 
+    }
+  },
+  "run_list": [
+    "recipe[chef-server11::standalone]"
+  ]
+}
